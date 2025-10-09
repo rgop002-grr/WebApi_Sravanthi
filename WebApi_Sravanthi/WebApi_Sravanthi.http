@@ -1,0 +1,6 @@
+@WebApi_Sravanthi_HostAddress = http://localhost:5290
+
+GET {{WebApi_Sravanthi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
