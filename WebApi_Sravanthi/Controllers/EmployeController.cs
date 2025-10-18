@@ -21,11 +21,12 @@ namespace WebApi_Sravanthi.Controllers
 
         // ✅ Endpoint that generates token using static data
         [HttpGet("gettoken")]
-        public IActionResult GetToken()
+        public IActionResult GetToken(string username,string role)
         {
             // Step 1: Static data
-            string username = "Sravanthi";
-            string role = "Admin";
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(role))
+                return BadRequest("Username is required!");
 
             // Step 2: Create claims (info stored inside token)
             var claims = new[]
