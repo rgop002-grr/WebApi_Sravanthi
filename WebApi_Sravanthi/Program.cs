@@ -3,18 +3,16 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using WebApi_Sravanthi;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddAuthorization();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-// ? Add Authentication & JWT Validation
+// Add Authentication & JWT Validation
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -34,11 +32,11 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi_Sravanthi", Version = "v1" });
 
-    // Add JWT Authorization to Swagger
     var securityScheme = new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -57,12 +55,9 @@ builder.Services.AddSwaggerGen(c =>
     c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, securityScheme);
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
-        {
-            securityScheme, new string[] {}
-        }
+        { securityScheme, new string[] { } }
     });
 });
-
 
 var app = builder.Build();
 
@@ -73,12 +68,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthentication(); // ? Add Authentication Middleware
-
+//app.UseHttpsRedirection();   // ?? Comment this if you disable HTTPS
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
