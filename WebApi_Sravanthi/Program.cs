@@ -7,6 +7,7 @@ using WebApi_Sravanthi.Controllers;
 using WebApi_Sravanthi.DataAccessLayer;
 using WebApi_Sravanthi.Model;
 using WebApi_Sravanthi.ServiceLayer;
+using WebApi_Sravanthi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,10 @@ builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddControllers();
 builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();   
+builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<TransientGuidService>();
+builder.Services.AddScoped<ScopedGuidService>();
+builder.Services.AddSingleton<SingletonGuidService>();
 
 // ? 4. Add Swagger Configuration
 builder.Services.AddSwaggerGen(c =>
@@ -76,7 +80,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });
-
+builder.Services.AddControllers();
 var app = builder.Build();
 
 // ? 6. Middleware Pipeline
