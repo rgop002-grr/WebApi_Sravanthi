@@ -82,6 +82,10 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddControllers();
 var app = builder.Build();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
 // ? 6. Middleware Pipeline
 if (app.Environment.IsDevelopment())
